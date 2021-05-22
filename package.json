@@ -1,0 +1,20 @@
+{
+  "name": "magic-deck-editor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": "true",
+  "scripts": {
+    "dev": "yarn workspace @made/web dev"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "devDependencies": {
+    "typescript": "^4.2.4",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.6"
+  }
+}
