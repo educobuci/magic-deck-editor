@@ -1,7 +1,7 @@
-// const withTM = require('next-transpile-modules')([
-//   '@mol/entities',
-// ])
+const withTM = require('next-transpile-modules')([
+  '@made/use-cases',
+])
 
-// module.exports = withTM({
-//   reactStrictMode: true,
-// })
+module.exports = withTM({
+  reactStrictMode: true,
+})
