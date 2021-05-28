@@ -8,7 +8,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@made/presentation": "*",
     "@made/use-cases": "*",
     "@tailwindcss/forms": "^0.3.2",
     "next": "10.2.2",
