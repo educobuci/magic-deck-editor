@@ -11,9 +11,9 @@ describe('EditorPresenter', () => {
 
   it('should group all creatures types togheter', () => {
     const mockDeck = mock<Deck>({ cards: [
-      mock<Card>({ type: 'Creature — Human Wizard' }),
-      mock<Card>({ type: 'Legendary Creature — Praetor' }),
-      mock<Card>({ type: 'Creature — Snake' })
+      mock<Card>({ name: '1', type: 'Creature — Human Wizard' }),
+      mock<Card>({ name: '2', type: 'Legendary Creature — Praetor' }),
+      mock<Card>({ name: '3', type: 'Creature — Snake' })
     ]})
     presenter.presentDeck(mockDeck)
     expect(viewModel.typeGroups[0].type).toEqual('Creatures')
@@ -22,8 +22,8 @@ describe('EditorPresenter', () => {
 
   it('should group instants and sorceries as "Spells"', () => {
     const mockDeck = mock<Deck>({ cards: [
-      mock<Card>({ type: 'Instant' }),
-      mock<Card>({ type: 'Sourcery' })
+      mock<Card>({ name: '1', type: 'Instant' }),
+      mock<Card>({ name: '2', type: 'Sourcery' })
     ]})
     presenter.presentDeck(mockDeck)
     expect(viewModel.typeGroups[0].type).toEqual('Spells')
@@ -32,9 +32,9 @@ describe('EditorPresenter', () => {
 
   it('should not group different types togheter', () => {
     const mockDeck = mock<Deck>({ cards: [
-      mock<Card>({ type: 'Sourcery' }),
-      mock<Card>({ type: 'Instant' }),
-      mock<Card>({ type: 'Creature' })
+      mock<Card>({ name: '1', type: 'Sourcery' }),
+      mock<Card>({ name: '2', type: 'Instant' }),
+      mock<Card>({ name: '3', type: 'Creature' })
     ]})
     presenter.presentDeck(mockDeck)
     expect(viewModel.typeGroups[0].type).toEqual('Creatures')
@@ -45,9 +45,9 @@ describe('EditorPresenter', () => {
 
   it('should group all lands types togheter', () => {
     const mockDeck = mock<Deck>({ cards: [
-      mock<Card>({ type: 'Basic Land' }),
-      mock<Card>({ type: 'Land - Island Mountain' }),
-      mock<Card>({ type: 'Land Creature - Forest Dryad' })
+      mock<Card>({ name: '1', type: 'Basic Land' }),
+      mock<Card>({ name: '2', type: 'Land - Island Mountain' }),
+      mock<Card>({ name: '3', type: 'Land Creature - Forest Dryad' })
     ]})
     presenter.presentDeck(mockDeck)
     expect(viewModel.typeGroups[1].type).toEqual('Lands')
@@ -56,8 +56,8 @@ describe('EditorPresenter', () => {
 
   it('should group all lands types togheter', () => {
     const mockDeck = mock<Deck>({ cards: [
-      mock<Card>({ type: 'Planeswalker' }),
-      mock<Card>({ type: 'Legendary Planeswalker - Liliana' }),
+      mock<Card>({ name: '1', type: 'Planeswalker' }),
+      mock<Card>({ name: '2', type: 'Legendary Planeswalker - Liliana' }),
     ]})
     presenter.presentDeck(mockDeck)
     expect(viewModel.typeGroups[0].type).toEqual('Planeswalkers')
@@ -66,12 +66,23 @@ describe('EditorPresenter', () => {
 
   it('should group all enchantments types togheter', () => {
     const mockDeck = mock<Deck>({ cards: [
-      mock<Card>({ type: 'Enchantment' }),
-      mock<Card>({ type: 'Legendary Enchantment Creature - God' }),
+      mock<Card>({ name: '1', type: 'Enchantment' }),
+      mock<Card>({ name: '2', type: 'Legendary Enchantment Creature - God' }),
     ]})
     presenter.presentDeck(mockDeck)
     expect(viewModel.typeGroups[1].type).toEqual('Enchantments')
     expect(viewModel.typeGroups[1].cards.length).toEqual(1)
+  })
+
+  it('should group the cards by name', () => {
+    const mockDeck = mock<Deck>({ cards: [
+      mock<Card>({ name: 'Island', type: 'Basic Land' }),
+      mock<Card>({ name: 'Island', type: 'Basic Land' }),
+      mock<Card>({ name: 'Mountain', type: 'Basic Land' }),
+    ]})
+    presenter.presentDeck(mockDeck)
+    const lands = viewModel.typeGroups[0].cards.map(c => [c.count, c.name])
+    expect(lands).toEqual([[2, 'Island'], [1, 'Mountain']])
   })
 
   beforeEach(() => {

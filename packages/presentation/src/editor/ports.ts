@@ -4,7 +4,8 @@ export type EditorViewModel = {
     type: string,
     cards: {
       name: string,
-      cost?: string
+      count: number,
+      cost?: string,
     }[]
   }[]
 }

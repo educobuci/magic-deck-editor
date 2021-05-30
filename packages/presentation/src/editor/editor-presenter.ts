@@ -9,8 +9,8 @@ const GroupingCriteria: { type: string, matcher: RegExp }[] = [
   { type: 'Spells', matcher: /Instant|Sourcery/ },
   { type: 'Lands', matcher: /Land/ }
 ]
-
-type CardTypeGroup = { type: string, cards: { name: string, cost?: string }[] }
+type CardEntries = { name: string, cost?: string, count: number }
+type CardTypeGroup = { type: string, cards: CardEntries[] }
 
 export class EditorPresenter implements IEditorPresenter {
   editorView: IEditorView
@@ -28,10 +28,14 @@ export class EditorPresenter implements IEditorPresenter {
   }
 
   getGroups(cards:  ReadonlyArray<Card>): CardTypeGroup[] {
-    const indexedGroups = cards.reduce<Record<string, Card[]>>((acc, card) => {
+    type Records = Record<string, Record<string, CardEntries>>
+    const indexedGroups = cards.reduce<Records>((acc, card) => {
       for(const criteria of GroupingCriteria) {
         if(card.type.match(criteria.matcher)) {
-          acc[criteria.type] = acc[criteria.type] ? [...acc[criteria.type], card] : [card]
+          if(!acc[criteria.type])
+            acc[criteria.type] = {}
+          const entry = acc[criteria.type][card.name] || { ...card, count: 0 }
+          acc[criteria.type][card.name] = { ...entry, count: entry.count + 1 }
           break
         }
       }
@@ -42,7 +46,7 @@ export class EditorPresenter implements IEditorPresenter {
       return acc
     }, {})
     return Object.entries(indexedGroups)
-      .map(([type, cards]) => ({ type, cards }))
+      .map(([type, cards]) => ({ type, cards: Object.entries(cards).map(([_, entry]) => entry)}))
       .sort((a, b) => groupOrder[a.type] - groupOrder[b.type])
   }
 
