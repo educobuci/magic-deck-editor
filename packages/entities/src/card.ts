@@ -3,5 +3,5 @@ export class Card {
   name: string
   type: string
   text: string
-  cost: string
+  cost?: string
 }

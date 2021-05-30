@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-import { EditorContext, EditorContextProvider } from './editor/editor-context'
+import { EditorContext, EditorContextProvider } from '../hooks/editor-context'
 
 function MyApp({ Component, pageProps }) {
   return (

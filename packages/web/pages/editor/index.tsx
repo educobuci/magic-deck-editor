@@ -1,6 +1,6 @@
 import { List } from 'components/list'
 import React, { useContext } from 'react'
-import { EditorContext } from './editor-context'
+import { EditorContext } from '../../hooks/editor-context'
 
 export default function EditorPage() {
   const { listViewModel, name, loading, keyDown } = useContext(EditorContext)
@@ -14,7 +14,7 @@ export default function EditorPage() {
         <div className="rounded border border-gray-500 p-4"></div>
         <div className="rounded border border-gray-500 p-4"></div>
         <div className="rounded border border-gray-500 p-4">
-          <input tabIndex={0} onKeyDown={onKeyDown} className="w-full rounded bg-transparent border border-gray-500" type="text" readOnly value={ name } />
+          <input className="w-full rounded bg-transparent border border-gray-500" type="text" readOnly value={ name } />
           <List sections={ listViewModel.sections } />
         </div>
       </>)}

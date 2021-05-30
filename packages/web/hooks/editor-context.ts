@@ -1,14 +1,12 @@
 import { Formats } from "@made/entities"
 import { IEditorPresenter, EditorInteractor, IDeckRepository, ICardRepository } from "@made/use-cases"
-import { IndexPath, ListViewModel } from "components/list"
+import { ListViewModel } from "components/list"
 import { useState, useEffect, createContext } from "react"
 
 export interface IEditorContext {
   name: string
   listViewModel?: ListViewModel
   loading: boolean
-  keyDown?(event: KeyboardEvent): void
-  click?(indexPath: IndexPath): void
 }
 
 export const EditorContext = createContext<IEditorContext>({ loading: true, name: '' })
@@ -18,7 +16,16 @@ export const EditorContextProvider = (): IEditorContext => {
   const [loading, setLoading] = useState(true)
   const presenter: IEditorPresenter = {
     presentDeck(deck) {
-      setListViewModel({ sections: [{ label: 'Creatures', rows: deck.cards.map(c => c.name)}] })
+      setListViewModel({ sections: [
+        {
+          label: 'Creatures', 
+          rows: deck.cards.filter(c => c.type.match('Creature')).map(c => c.name)
+        },
+        {
+          label: 'Lands', 
+          rows: deck.cards.filter(c => c.type.match('Land')).map(c => c.name)
+        }
+      ]})
     },
     presentCard(card) { }
   }
@@ -32,18 +39,6 @@ export const EditorContextProvider = (): IEditorContext => {
     name: 'UR Modern Delver',
     listViewModel,
     loading,
-    click(indexPath) {
-    },
-    keyDown(e) {
-      switch(e.key) {
-        case 'ArrowUp':
-          console.log('up')
-          break
-        case 'ArrowDown':
-          console.log('down')
-          break
-      }
-    }
   }
 }
 
@@ -63,6 +58,7 @@ const fakeRepository: IDeckRepository & ICardRepository = {
         // { name: 'Delver of Secrets', id: '123456', cost: 'U', text: 'asasas', type: 'Creature - Human Wizard' },
         // { name: 'Sprite Dragon', id: '123456', cost: 'UR', text: 'asasas', type: 'Creature - Faerie Dragon' },
         { name: 'Sprite Dragon', id: '654321', cost: 'UR', text: 'asasas', type: 'Creature - Faerie Dragon' },
+        { name: 'Steam Vents', id: '123', text: '{T} to add {B}', type: 'Land' }
       ]
     }
     console.log('tick')
