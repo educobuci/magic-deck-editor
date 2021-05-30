@@ -3,10 +3,7 @@ import React, { useContext } from 'react'
 import { EditorContext } from '../../hooks/editor-context'
 
 export default function EditorPage() {
-  const { listViewModel, name, loading, keyDown } = useContext(EditorContext)
-  const onKeyDown = (e) => {
-    keyDown(e)
-  }
+  const { listViewModel, name, loading } = useContext(EditorContext)
   return (
     <div className="p-4 min-h-screen grid grid-cols-3 gap-4 dark:bg-gray-800 dark:text-white">
       { loading ? (<div>Loading...</div>) : 
