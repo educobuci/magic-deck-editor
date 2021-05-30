@@ -1,4 +1,5 @@
 export type EditorViewModel = {
+  deckName: string
   typeGroups: {
     type: string,
     cards: {
