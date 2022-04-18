@@ -1,12 +1,19 @@
-import { ICardRepository, IDeckRepository, IEditorPresenter } from "./editor-ports";
+import {
+  ICardRepository,
+  IDeckRepository,
+  IEditorPresenter,
+} from './editor-ports'
 
 export class EditorInteractor {
   presenter: IEditorPresenter
   deckRepository: IDeckRepository
   cardRepository: ICardRepository
-  
 
-  constructor(presenter: IEditorPresenter, deckRepository: IDeckRepository, cardRepository: ICardRepository) {
+  constructor(
+    presenter: IEditorPresenter,
+    deckRepository: IDeckRepository,
+    cardRepository: ICardRepository
+  ) {
     this.presenter = presenter
     this.deckRepository = deckRepository
     this.cardRepository = cardRepository
